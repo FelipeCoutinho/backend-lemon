@@ -3,16 +3,10 @@ on:
     branches:
       - main
       - development
-      - 'feature/**'
-      - 'fix/**'
-      - 'release'
   pull_request:
     branches:
       - main
       - development
-      - 'feature/**'
-      - 'fix/**'
-      - 'release'
 env:
   REGISTRY: southamerica-east1-docker.pkg.dev/backendlemon/backend-lemon
   IMAGE_NAME: lemon-backend/lemon-backend-image
