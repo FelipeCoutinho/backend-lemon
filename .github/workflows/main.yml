@@ -111,7 +111,7 @@ jobs:
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          image: 'us-docker.pkg.dev/techfit-backend/techfit-images/techfit-backend/techfit-backend-image:main'
+          image: 'southamerica-east1-docker.pkg.dev/backendlemon/backend-lemon/lemon-backend/lemon-backend-image:main'
           env_vars: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
       - name: Show Output
