@@ -26,6 +26,10 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Cloud 
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/1903ea7f-d312-4ba8-b0b0-fc8f321b2b87)
+
+
 ## Installation
 
 ```bash
@@ -71,3 +75,5 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
