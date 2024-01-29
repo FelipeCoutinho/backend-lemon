@@ -9,7 +9,7 @@ COPY package-lock.json . ./
 COPY prisma ./prisma
 RUN npm ci --only=production
 RUN npm install
-RUN npm run prisma:generate
+# RUN npm run prisma:generate
 
 COPY . ./
 RUN npm run build
