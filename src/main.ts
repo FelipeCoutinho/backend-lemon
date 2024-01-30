@@ -1,5 +1,5 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { CustomerModule } from './customer/customer.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {
@@ -9,7 +9,7 @@ import {
 import { HttpExceptionFilter } from './exceptions/all-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    CustomerModule,
     new FastifyAdapter(),
   );
 

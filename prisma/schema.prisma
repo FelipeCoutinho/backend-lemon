@@ -11,11 +11,17 @@ datasource db {
 }
 
 model Customer {
-  customerId String    @id @default(uuid())
-  name       String
-  email      String    @unique
-  active     Boolean   @default(true)
-  deletedAt  DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  customerId           String    @id @default(uuid())
+  name                 String
+  documentNumber       String    @unique
+  connectiontype       String
+  consumptionclass     String
+  tariffModality       Int
+  historyOfConsumption Int
+  eligible             Boolean
+  description          String
+  active               Boolean   @default(true)
+  deletedAt            DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 }

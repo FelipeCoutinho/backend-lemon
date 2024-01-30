@@ -77,12 +77,12 @@ export class CustomerRepository {
     const data = await this.prisma.customer.findUnique({
       where: {
         ...filter,
-        deletedAt: null,
       },
     });
 
     return data;
   }
+
   async update(customerId: string, updateCustomerDto: any) {
     const data = await this.prisma.customer.update({
       where: {

@@ -26,7 +26,7 @@ export class CustomerController {
     type: Customer,
   })
   @UsePipes(new ValidationPipe({ transform: true }))
-  create(@Body() createCustomerDto: CreateCustomerDto) {
+  create(@Body() createCustomerDto: any) {
     return this.customerService.create(createCustomerDto);
   }
   @ApiQuery({ name: 'filters', required: false })

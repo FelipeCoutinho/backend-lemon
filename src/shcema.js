@@ -3,6 +3,23 @@
 //Caso a empresa não seja elegível, precisamos explicitar os motivos para tal.
 //Caso ela seja elegível, precisamos calcular também a projeção da quantidade de CO2 que ela deixaria de emitir caso usasse energia limpa.
 
+// # Critérios de Elegibilidade
+// Para checar a elegibilidade iremos aplicar os seguintes critérios:
+// - Classe de consumo da cliente
+//     - Possíveis Valores: Comercial, Residencial, Industrial, Poder Público, e Rural.
+//     - Elegíveis: Comercial, Residencial e Industrial.
+// - Modalidade tarifária
+//     - Possíveis Valores: Branca, Azul, Verde, e Convencional.
+//     - Elegíveis: Convencional, Branca.
+// - Consumo mínimo do cliente
+//     - O cálculo deve ser feito utilizando a média dos 12 valores mais recentes do histórico de consumo.
+//         - Clientes com tipo de conexão Monofásica só são elegíveis caso tenham consumo médio maior ou igual a 400 kWh.
+//         - Clientes com tipo de conexão Bifásica só são elegíveis caso tenham consumo médio- maior ou igual a 500 kWh.
+//         - Clientes com tipo de conexão Trifásica só são elegíveis caso tenham consumo médio maior ou igual a 750 kWh.
+//         - Para calcular a projeção da **economia anual** de CO2, considere que para serem gerados 1000 kWh no Brasil são emitidos em média 84kg de CO2.
+// 1000 kWh no Brasil são emitidos em média 84kg de CO2.
+// 1 kWh = 0,0084 kg CO2
+
 const {
   tiposDeConexao,
   classesDeConsumo,
@@ -50,7 +67,7 @@ const output = {
   oneOf: [
     {
       type: 'object',
-      additionalProperties: false,
+      additionalProperties: true,
       required: ['elegivel', 'economiaAnualDeCO2'],
       properties: {
         elegivel: enumOf([true]), // always true
