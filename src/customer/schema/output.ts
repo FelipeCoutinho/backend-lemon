@@ -1,30 +1,18 @@
 export type EligibleOutputSchema = {
-  type: any;
-  additionalProperties: boolean;
-  required: [string];
-  properties: {
-    elegivel: boolean;
-    economiaAnualDeCO2: number;
-  };
+  eligible: boolean;
+  economyAnnualCO2: number;
+  message?: string;
 };
 
-export const output = {
-  type: 'object',
-  additionalProperties: false,
-  required: ['elegivel', 'razoesDeInelegibilidade'],
-  properties: {
-    elegivel: Boolean, // always false
-    razoesDeInelegibilidade: {
-      type: 'array',
-      uniqueItems: true,
-      items: {
-        type: 'string',
-        enum: [
-          'Classe de consumo não aceita',
-          'Modalidade tarifária não aceita',
-          'Consumo muito baixo para tipo de conexão',
-        ],
-      },
-    },
-  },
+export type IneligibleOutputSchema = {
+  eligible: false;
+  reasonsofineligibility: [string];
 };
+
+export type tResponse = {
+  eligible: boolean;
+  message?: string;
+};
+
+// npx prisma generate
+// npx prisma migrate dev

@@ -16,30 +16,6 @@ export class CustomerRepository {
     }
   }
 
-  async findAll(filters?: any, pagination?: any) {
-    filters = !filters ? { active: true } : filters;
-
-    const { skipPage, linesPerPage, quantityOfPages, quantityRecords } =
-      await this.pagination(filters, pagination);
-
-    const data = await this.prisma.customer.findMany({
-      skip: skipPage,
-      take: linesPerPage,
-      where: {
-        ...filters,
-      },
-      orderBy: {
-        name: 'asc',
-      },
-    });
-    const result = {
-      paginas: quantityOfPages,
-      quantityRecords,
-      data,
-    };
-    return result;
-  }
-
   async search(filters?: any, pagination?: any) {
     const { skipPage, linesPerPage, quantityOfPages, quantityRecords } =
       await this.paginationSearch(filters, pagination);

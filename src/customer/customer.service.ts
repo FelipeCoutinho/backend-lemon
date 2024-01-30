@@ -1,54 +1,67 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { CustomerRepository } from './repository/customer.repository';
-import { cnpj } from 'cpf-cnpj-validator';
+import { cnpj, cpf } from 'cpf-cnpj-validator';
 import {
   CONNECTIONTYPES,
   CONSUMPTIONCLASSES,
   TARIFFMODALITY,
 } from './dto/ConsumptionClasses.enum';
-import { EligibleOutputSchema } from './schema/output';
+import { tResponse } from './schema/output';
 
 @Injectable()
 export class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
 
   async create(createCustomerDto: CreateCustomerDto) {
-    const r = cnpj.isValid(createCustomerDto.documentNumber);
-    console.log(r);
+    const isCnpj = cnpj.isValid(createCustomerDto.documentNumber);
+    const isCpf = cpf.isValid(createCustomerDto.documentNumber);
+
+    if (!isCnpj && !isCpf) {
+      return {
+        message: 'cpf or cnpj invalid',
+      };
+    }
 
     try {
       const filters = {
         documentNumber: createCustomerDto.documentNumber,
       };
+
       const customerResult = await this.customerRepository.findUnique(filters);
 
       if (customerResult) {
         throw new Error('Customer already exists');
       }
-      const data: EligibleOutputSchema =
-        await this.eligibilityValidator(createCustomerDto);
+      const result: any = await this.eligibilityValidator(createCustomerDto);
 
-      Object.assign(createCustomerDto.eligible, data.eligible);
-      createCustomerDto.description = data.economyAnnualCO2;
+      if (!result.eligible) {
+        return {
+          eligible: result.eligible,
+          reasonsofineligibility: [...result.reasonsofineligibility],
+        };
+      }
 
-      const customerCreated = await this.customerRepository.create(data);
+      const newCustomer = {
+        name: createCustomerDto.name,
+        documentNumber: createCustomerDto.documentNumber,
+        connectiontype: createCustomerDto.connectiontype,
+        consumptionclass: createCustomerDto.consumptionclass,
+        tariffModality: createCustomerDto.tariffModality,
+        historyOfConsumption: createCustomerDto.historyOfConsumption,
+        eligible: result.eligible,
+        economyAnnualCO2: result.economyAnnualCO2,
+      };
 
-      return customerCreated;
+      const customerCreated = await this.customerRepository.create(newCustomer);
+
+      return {
+        eligible: true,
+        economyAnnualCO2: customerCreated.economyAnnualCO2,
+        message: 'create customer sucessfuly',
+      };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  findAll(filters?: any, pagination?: any) {
-    try {
-      return this.customerRepository.findAll(filters, pagination);
-    } catch (error) {
-      throw new HttpException(
-        error.message,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        error,
-      );
     }
   }
 
@@ -59,11 +72,20 @@ export class CustomerService {
         { documentNumber: { contains: keyUser } },
       ];
 
-      const result = await this.customerRepository.search(
+      const result: any = await this.customerRepository.search(
         filters,
         queryFilters,
       );
-      return result;
+
+      const response = result.customers.map((customer) => {
+        return {
+          name: customer.name,
+          economyAnnualCO2: customer.economyAnnualCO2,
+          elegivel: customer.eligible,
+        };
+      });
+
+      return response;
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -72,6 +94,7 @@ export class CustomerService {
       );
     }
   }
+
   findOne(customerId: any) {
     try {
       return this.customerRepository.findOne(customerId);
@@ -125,25 +148,35 @@ export class CustomerService {
 
   async eligibilityValidator(createCustomerDto: any) {
     try {
-      const customerConsumptionClass =
+      const customerConsumptionClass: tResponse =
         await this.customerConsumptionClass(createCustomerDto);
-      const tariffModality = await this.tariffModality(createCustomerDto);
+
+      const tariffModality: tResponse =
+        await this.tariffModality(createCustomerDto);
+
       const minimumCustomerConsumption: any =
         await this.minimumCustomerConsumption(createCustomerDto);
 
-      if (!minimumCustomerConsumption.eligible) {
-        return {
-          customerConsumptionClass,
-          tariffModality,
-          minimumCustomerConsumption,
+      if (
+        !customerConsumptionClass.eligible ||
+        !tariffModality.eligible ||
+        !minimumCustomerConsumption.eligible
+      ) {
+        const response = {
+          eligible: false,
+          reasonsofineligibility: [
+            customerConsumptionClass.message,
+            tariffModality.message,
+            minimumCustomerConsumption.message,
+          ],
         };
+
+        return response;
       }
 
-      const response: EligibleOutputSchema = {
-        additionalProperties: true,
-        type: Object,
-        required: [''],
-        properties: { elegivel: true, economiaAnualDeCO2: 100 },
+      const response = {
+        economyAnnualCO2: minimumCustomerConsumption.economyAnnualCO2,
+        eligible: minimumCustomerConsumption.eligible,
       };
 
       return response;
@@ -156,7 +189,9 @@ export class CustomerService {
     }
   }
 
-  async customerConsumptionClass(createCustomerDto: CreateCustomerDto) {
+  async customerConsumptionClass(
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<any> {
     if (
       createCustomerDto.consumptionclass === CONSUMPTIONCLASSES.PODERPUBLICO ||
       createCustomerDto.consumptionclass === CONSUMPTIONCLASSES.RURAL
@@ -166,6 +201,9 @@ export class CustomerService {
         eligible: false,
       };
     }
+    return {
+      eligible: true,
+    };
   }
 
   async tariffModality(createCustomerDto: CreateCustomerDto) {
@@ -178,10 +216,12 @@ export class CustomerService {
         eligible: false,
       };
     }
+    return {
+      eligible: true,
+    };
   }
 
   async minimumCustomerConsumption(createCustomerDto: CreateCustomerDto) {
-    const message = '';
     const response = {
       message: 'Consumo muito baixo para tipo de conexão',
       eligible: false,
@@ -203,6 +243,7 @@ export class CustomerService {
         if (averageConsumption < 500) {
           return response;
         }
+        break;
       case CONNECTIONTYPES.TRIFASICO:
         if (averageConsumption < 750) {
           return response;
@@ -220,7 +261,6 @@ export class CustomerService {
     return {
       eligible: true,
       economyAnnualCO2: Math.ceil(economyAnnualCO2),
-      message,
     };
   }
 }

@@ -29,20 +29,10 @@ export class CustomerController {
   create(@Body() createCustomerDto: any) {
     return this.customerService.create(createCustomerDto);
   }
-  @ApiQuery({ name: 'filters', required: false })
-  @Get()
-  findAll(@Param('filters') filters: string, @Query() query?: any) {
-    const pagination = query;
-    return this.customerService.findAll(filters, pagination);
-  }
+
   @Get('search/:search')
   search(@Param('search') search: string, @Query() query?: any) {
     const filters = query;
-    // if (search.length < 3) {
-    //   return {
-    //     message: 'Search must be at least 3 characters long',
-    //   };
-    // }
     return this.customerService.search(search, filters);
   }
   @Get(':id')

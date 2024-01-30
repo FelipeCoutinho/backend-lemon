@@ -16,10 +16,11 @@ model Customer {
   documentNumber       String    @unique
   connectiontype       String
   consumptionclass     String
-  tariffModality       Int
-  historyOfConsumption Int
+  tariffModality       String
+  historyOfConsumption Int[]
+  economyAnnualCO2     Int
   eligible             Boolean
-  description          String
+  description          String?
   active               Boolean   @default(true)
   deletedAt            DateTime?
   createdAt            DateTime  @default(now())
