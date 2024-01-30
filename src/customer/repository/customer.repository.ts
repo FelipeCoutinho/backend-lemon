@@ -25,6 +25,9 @@ export class CustomerRepository {
       take: linesPerPage,
       where: {
         OR: [...filters],
+        AND: {
+          deletedAt: null,
+        },
       },
       orderBy: {
         name: 'asc',
@@ -42,7 +45,6 @@ export class CustomerRepository {
     const data = await this.prisma.customer.findUnique({
       where: {
         customerId,
-        deletedAt: null,
       },
     });
 

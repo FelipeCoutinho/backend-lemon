@@ -79,6 +79,7 @@ export class CustomerService {
 
       const response = result.customers.map((customer) => {
         return {
+          customerId: customer.customerId,
           name: customer.name,
           economyAnnualCO2: customer.economyAnnualCO2,
           elegivel: customer.eligible,
