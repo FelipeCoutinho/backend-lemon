@@ -131,11 +131,11 @@ export class CustomerService {
 
   async virtualExclusion(id: string) {
     try {
-      const user = await this.customerRepository.virtualExclusion(id);
-      if (user) {
+      const customer = await this.customerRepository.virtualExclusion(id);
+      if (customer) {
         return {
           status: HttpStatus.OK,
-          message: 'User disabled successfully',
+          message: 'Customer disabled successfully',
         };
       }
     } catch (error) {
