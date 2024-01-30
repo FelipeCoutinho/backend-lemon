@@ -10,13 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  userId    String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  active    Boolean   @default(true)
-  deletedAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+model Customer {
+  customerId           String    @id @default(uuid())
+  name                 String
+  documentNumber       String    @unique
+  connectiontype       String
+  consumptionclass     String
+  tariffModality       String
+  historyOfConsumption Int[]
+  economyAnnualCO2     Float
+  eligible             Boolean
+  description          String?
+  active               Boolean   @default(true)
+  deletedAt            DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 }
