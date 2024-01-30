@@ -26,5 +26,3 @@ model Customer {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 }
-
-npx prisma migrate dev

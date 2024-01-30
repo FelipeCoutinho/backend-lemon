@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
-import { ApiCreatedResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Customer } from './repository/customer.entity';
 
 @ApiTags('customer')
@@ -26,7 +26,7 @@ export class CustomerController {
     type: Customer,
   })
   @UsePipes(new ValidationPipe({ transform: true }))
-  create(@Body() createCustomerDto: any) {
+  create(@Body() createCustomerDto: CreateCustomerDto) {
     return this.customerService.create(createCustomerDto);
   }
 

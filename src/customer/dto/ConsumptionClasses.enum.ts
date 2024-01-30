@@ -1,18 +1,18 @@
 export enum CONSUMPTIONCLASSES {
-  RESIDENCIAL = 'residencial',
-  INDUSTRIAL = 'industrial',
-  COMERCIAL = 'comercial',
-  RURAL = 'rural',
-  PODERPUBLICO = 'poderPublico',
+  RESIDENCIAL = 'RESIDENCIAL',
+  INDUSTRIAL = 'INDUSTRIAL',
+  COMERCIAL = 'COMERCIAL',
+  RURAL = 'RURAL',
+  PODERPUBLICO = 'PODERPUBLICO',
 }
 export enum TARIFFMODALITY {
-  BRANCA = 'Branca',
-  AZUL = 'Azul',
-  VERDE = 'Verde',
-  CONVENCIONAL = 'Convencional',
+  BRANCA = 'BRANCA',
+  AZUL = 'AZUL',
+  VERDE = 'VERDE',
+  CONVENCIONAL = 'CONVENCIONAL',
 }
 export enum CONNECTIONTYPES {
-  MONOFASICO = 'monofasico',
-  BIFASICO = 'bifasico',
-  TRIFASICO = 'trifasico',
+  MONOFASICO = 'MONOFASICO',
+  BIFASICO = 'BIFASICO',
+  TRIFASICO = 'TRIFASICO',
 }
