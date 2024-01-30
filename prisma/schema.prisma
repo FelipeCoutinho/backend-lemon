@@ -18,7 +18,7 @@ model Customer {
   consumptionclass     String
   tariffModality       String
   historyOfConsumption Int[]
-  economyAnnualCO2     Int
+  economyAnnualCO2     Float
   eligible             Boolean
   description          String?
   active               Boolean   @default(true)
@@ -26,3 +26,5 @@ model Customer {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 }
+
+npx prisma migrate dev

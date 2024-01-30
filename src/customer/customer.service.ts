@@ -261,7 +261,7 @@ export class CustomerService {
 
     return {
       eligible: true,
-      economyAnnualCO2: Math.ceil(economyAnnualCO2),
+      economyAnnualCO2: Number(economyAnnualCO2.toFixed(2)),
     };
   }
 }
