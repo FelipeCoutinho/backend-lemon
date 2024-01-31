@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CustomerService } from './customer.service';
-import { customerRepositoryMock } from '../../test/mocks/customer';
+import { customerRepositoryMock } from '../../test/mocks/customer.mock';
 import { iCustomerRepository } from './repository/prisma.customer.repository';
 
 describe('CustomerService', () => {
