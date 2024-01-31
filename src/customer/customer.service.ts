@@ -194,7 +194,8 @@ export class CustomerService {
     createCustomerDto: CreateCustomerDto,
   ): Promise<any> {
     if (
-      createCustomerDto.consumptionclass === CONSUMPTIONCLASSES.PODERPUBLICO ||
+      createCustomerDto.consumptionclass.replace(/\s/g, '') ===
+        CONSUMPTIONCLASSES.PODERPUBLICO ||
       createCustomerDto.consumptionclass === CONSUMPTIONCLASSES.RURAL
     ) {
       return {
