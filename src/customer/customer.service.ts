@@ -14,16 +14,16 @@ export class CustomerService {
   constructor(private customerRepository: iCustomerRepository) {}
 
   async create(createCustomerDto: CreateCustomerDto) {
-    const isCnpj = cnpj.isValid(createCustomerDto.documentNumber);
-    const isCpf = cpf.isValid(createCustomerDto.documentNumber);
-
-    if (!isCnpj && !isCpf) {
-      return {
-        message: 'cpf or cnpj invalid',
-      };
-    }
-
     try {
+      const isCnpj = cnpj.isValid(createCustomerDto.documentNumber);
+      const isCpf = cpf.isValid(createCustomerDto.documentNumber);
+      this.isValidField(createCustomerDto);
+      if (!isCnpj && !isCpf) {
+        return {
+          message: 'cpf or cnpj invalid',
+        };
+      }
+
       const filters = {
         documentNumber: createCustomerDto.documentNumber,
       };
@@ -266,5 +266,30 @@ export class CustomerService {
       eligible: true,
       economyAnnualCO2: Number(economyAnnualCO2.toFixed(2)),
     };
+  }
+
+  isValidField(createCustomerDto: any) {
+    [createCustomerDto].map((field) => {
+      const data = [];
+      for (const key in CONSUMPTIONCLASSES) {
+        data.push(key);
+      }
+      for (const key in TARIFFMODALITY) {
+        data.push(key);
+      }
+      for (const key in CONNECTIONTYPES) {
+        data.push(key);
+      }
+
+      const consumptionclass = data.includes(
+        field.consumptionclass.toUpperCase().replace(/\s/g, ''),
+      );
+      const tariffModality = data.includes(field.tariffModality.toUpperCase());
+      const connectiontypes = data.includes(field.connectiontype.toUpperCase());
+
+      if (!consumptionclass) throw new Error('Consumptionclass not valid');
+      if (!tariffModality) throw new Error('TariffModality not valid');
+      if (!connectiontypes) throw new Error('Connectiontypes not valid');
+    });
   }
 }
