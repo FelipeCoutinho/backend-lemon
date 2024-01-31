@@ -13,7 +13,7 @@ import { iCustomerRepository } from './repository/prisma.customer.repository';
 export class CustomerService {
   constructor(private customerRepository: iCustomerRepository) {}
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<any> {
+  async create(createCustomerDto: CreateCustomerDto) {
     const isCnpj = cnpj.isValid(createCustomerDto.documentNumber);
     const isCpf = cpf.isValid(createCustomerDto.documentNumber);
 

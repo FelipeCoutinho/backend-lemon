@@ -15,7 +15,7 @@ export class CreateCustomerDto {
   @Transform(({ value }) => value.toUpperCase())
   consumptionclass: string;
   @IsNotEmpty()
-  historyOfConsumption: [number];
+  historyOfConsumption: number[];
   @IsNotEmpty()
   @Transform(({ value }) => value.toUpperCase())
   tariffModality: string;
