@@ -1,12 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 export class CreateCustomerDto {
   @IsNotEmpty()
-  @IsNotEmpty()
   name: string;
-  @IsEmail()
-  email: string;
   documentNumber: string;
   @ApiProperty({
     enum: ['residencial', 'industrial', 'comercial', 'rural', 'poderPublico'],

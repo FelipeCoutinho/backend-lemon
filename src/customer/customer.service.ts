@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
-import { CustomerRepository } from './repository/customer.repository';
 import { cnpj, cpf } from 'cpf-cnpj-validator';
 import {
   CONNECTIONTYPES,
@@ -8,12 +7,13 @@ import {
   TARIFFMODALITY,
 } from './dto/ConsumptionClasses.enum';
 import { tResponse } from './schema/output';
+import { iCustomerRepository } from './repository/prisma.customer.repository';
 
 @Injectable()
 export class CustomerService {
-  constructor(private customerRepository: CustomerRepository) {}
+  constructor(private customerRepository: iCustomerRepository) {}
 
-  async create(createCustomerDto: CreateCustomerDto) {
+  async create(createCustomerDto: CreateCustomerDto): Promise<any> {
     const isCnpj = cnpj.isValid(createCustomerDto.documentNumber);
     const isCpf = cpf.isValid(createCustomerDto.documentNumber);
 
@@ -65,7 +65,7 @@ export class CustomerService {
     }
   }
 
-  async search(keyUser: string, queryFilters?: any) {
+  async search(keyUser: string, queryFilters?: any): Promise<any> {
     try {
       const filters = [
         { name: { contains: keyUser, mode: 'insensitive' } },
@@ -108,7 +108,7 @@ export class CustomerService {
     }
   }
 
-  async update(customerId: string, updateCustomerDto: any) {
+  async update(customerId: string, updateCustomerDto: any): Promise<any> {
     try {
       const customer = await this.customerRepository.update(
         customerId,
@@ -129,7 +129,7 @@ export class CustomerService {
     }
   }
 
-  async virtualExclusion(id: string) {
+  async virtualExclusion(id: string): Promise<any> {
     try {
       const customer = await this.customerRepository.virtualExclusion(id);
       if (customer) {
@@ -147,7 +147,7 @@ export class CustomerService {
     }
   }
 
-  async eligibilityValidator(createCustomerDto: any) {
+  async eligibilityValidator(createCustomerDto: any): Promise<any> {
     try {
       const customerConsumptionClass: tResponse =
         await this.customerConsumptionClass(createCustomerDto);
@@ -207,7 +207,7 @@ export class CustomerService {
     };
   }
 
-  async tariffModality(createCustomerDto: CreateCustomerDto) {
+  async tariffModality(createCustomerDto: CreateCustomerDto): Promise<any> {
     if (
       createCustomerDto.tariffModality === TARIFFMODALITY.AZUL ||
       createCustomerDto.tariffModality === TARIFFMODALITY.VERDE
@@ -222,7 +222,9 @@ export class CustomerService {
     };
   }
 
-  async minimumCustomerConsumption(createCustomerDto: CreateCustomerDto) {
+  async minimumCustomerConsumption(
+    createCustomerDto: CreateCustomerDto,
+  ): Promise<any> {
     const response = {
       message: 'Consumo muito baixo para tipo de conexão',
       eligible: false,
