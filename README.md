@@ -32,13 +32,11 @@ link: https://drive.google.com/file/d/1kYpV0347gkKuD_vbSTYdX45c4kocl7Y2/view?usp
 
 
 ## Installation
-
 ```bash
 $ npm install
 ```
 
 ## Running the app
-
 ```bash
 # development
 $ npm run start
@@ -51,30 +49,46 @@ $ npm run start:prod
 ```
 
 ## Test
-
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
 # test coverage
 $ npm run test:cov
 ```
+## Postman
+Environments
+lemon-customer-dev : Para testes em produção. 
+lemon-customer-local : Para testes locais, host: localhost 
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/b19ce83d-a56a-4b02-973f-7429ea37f75d)
+
+Lembrese se setar o ambiente que seta feita a requisição no canto superior direito do postman. 
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/47a22970-2c56-4d85-814b-28c3c0399ab6)
+
+
+
+Endpoints:
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/395252d0-ffe7-4f02-9911-a4f3f2d9d314)
+
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/a8b52a01-5e82-434b-a54f-bc94219132f4)
+
+Para listar todos os resultados pode passar um https://lemon-backend-vg7swhj2nq-rj.a.run.app/customer/search/ 
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/53e0db61-a7dc-40e5-a08c-1045b0d79e9c)
+
+##Exp: 
+
+![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/e4a30aac-0cf2-4078-9a74-3598dc0edead)
+
+
+
 
 ## Support
-
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
+- Author - Felipe Coutinho
+- Linkedin - [https://www.linkedin.com/in/felipe-coutinho-53b39a14b/)
 ## License
-
 Nest is [MIT licensed](LICENSE).
 
 
