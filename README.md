@@ -72,6 +72,21 @@ Endpoints:
 
 ![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/a8b52a01-5e82-434b-a54f-bc94219132f4)
 
+Exp de body valido:
+```bash
+{
+    "name":"tacaca",
+    "documentNumber":"27.186.566/0001-06",
+    "tariffModality":"Convencional",
+    "consumptionclass":"industrial",
+    "connectiontype":"BIFASICO",
+    "historyOfConsumption":[3878,9760,5976,2797,2481,5731,7538,4392,7859,4160,6941,4597]
+
+}
+```
+
+
+
 Para listar todos os resultados pode passar um https://lemon-backend-vg7swhj2nq-rj.a.run.app/customer/search/ 
 ![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/53e0db61-a7dc-40e5-a08c-1045b0d79e9c)
 
