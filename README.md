@@ -62,7 +62,7 @@ lemon-customer-dev : Para testes em produção.
 lemon-customer-local : Para testes locais, host: localhost 
 ![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/b19ce83d-a56a-4b02-973f-7429ea37f75d)
 
-Lembrese se setar o ambiente que seta feita a requisição no canto superior direito do postman. 
+Lembrese se setar o ambiente que será feita a requisição no canto superior direito do postman. 
 ![image](https://github.com/FelipeCoutinho/backend-lemon/assets/30913247/47a22970-2c56-4d85-814b-28c3c0399ab6)
 
 
