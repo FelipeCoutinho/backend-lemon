@@ -195,31 +195,34 @@ export class CustomerService {
   ): Promise<any> {
     if (
       createCustomerDto.consumptionclass.replace(/\s/g, '') ===
-        CONSUMPTIONCLASSES.PODERPUBLICO ||
-      createCustomerDto.consumptionclass === CONSUMPTIONCLASSES.RURAL
+        CONSUMPTIONCLASSES.COMERCIAL ||
+      createCustomerDto.consumptionclass.replace(/\s/g, '') ===
+        CONSUMPTIONCLASSES.RESIDENCIAL ||
+      createCustomerDto.consumptionclass.replace(/\s/g, '') ===
+        CONSUMPTIONCLASSES.INDUSTRIAL
     ) {
       return {
-        message: 'Classe de consumo não aceita',
-        eligible: false,
+        eligible: true,
       };
     }
     return {
-      eligible: true,
+      message: 'Classe de consumo não aceita',
+      eligible: false,
     };
   }
 
   async tariffModality(createCustomerDto: CreateCustomerDto): Promise<any> {
     if (
-      createCustomerDto.tariffModality === TARIFFMODALITY.AZUL ||
-      createCustomerDto.tariffModality === TARIFFMODALITY.VERDE
+      createCustomerDto.tariffModality === TARIFFMODALITY.CONVENCIONAL ||
+      createCustomerDto.tariffModality === TARIFFMODALITY.BRANCA
     ) {
       return {
-        message: 'Modalidade tarifária não aceita',
-        eligible: false,
+        eligible: true,
       };
     }
     return {
-      eligible: true,
+      message: 'Modalidade tarifária não aceita',
+      eligible: false,
     };
   }
 
@@ -252,6 +255,8 @@ export class CustomerService {
         if (averageConsumption < 750) {
           return response;
         }
+      default:
+        response;
         break;
     }
 
@@ -272,24 +277,30 @@ export class CustomerService {
     [createCustomerDto].map((field) => {
       const data = [];
       for (const key in CONSUMPTIONCLASSES) {
-        data.push(key);
+        data.push({ consumptionclass: key });
       }
       for (const key in TARIFFMODALITY) {
-        data.push(key);
+        data.push({ tariffModality: key });
       }
       for (const key in CONNECTIONTYPES) {
-        data.push(key);
+        data.push({ connectiontype: key });
       }
 
-      const consumptionclass = data.includes(
-        field.consumptionclass.toUpperCase().replace(/\s/g, ''),
-      );
-      const tariffModality = data.includes(field.tariffModality.toUpperCase());
-      const connectiontypes = data.includes(field.connectiontype.toUpperCase());
+      const consumptionclass = data.find((item) => {
+        return item.consumptionclass === field.consumptionclass.toUpperCase();
+      });
+
+      const tariffModality = data.find((item) => {
+        return item.tariffModality === field.tariffModality.toUpperCase();
+      });
+
+      const connectiontype = data.find((item) => {
+        return item.connectiontype === field.connectiontype.toUpperCase();
+      });
 
       if (!consumptionclass) throw new Error('Consumptionclass not valid');
       if (!tariffModality) throw new Error('TariffModality not valid');
-      if (!connectiontypes) throw new Error('Connectiontypes not valid');
+      if (!connectiontype) throw new Error('Connectiontypes not valid');
     });
   }
 }
