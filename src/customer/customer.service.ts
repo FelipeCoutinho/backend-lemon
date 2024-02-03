@@ -33,6 +33,7 @@ export class CustomerService {
       if (customerResult) {
         throw new Error('Customer already exists');
       }
+
       const result: any = await this.eligibilityValidator(createCustomerDto);
 
       if (!result.eligible) {
@@ -77,16 +78,7 @@ export class CustomerService {
         queryFilters,
       );
 
-      const response = result.customers.map((customer) => {
-        return {
-          customerId: customer.customerId,
-          name: customer.name,
-          economyAnnualCO2: customer.economyAnnualCO2,
-          elegivel: customer.eligible,
-        };
-      });
-
-      return response;
+      return result;
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -287,7 +279,10 @@ export class CustomerService {
       }
 
       const consumptionclass = data.find((item) => {
-        return item.consumptionclass === field.consumptionclass.toUpperCase();
+        return (
+          item.consumptionclass ===
+          field.consumptionclass.toUpperCase().replace(/\s/g, '')
+        );
       });
 
       const tariffModality = data.find((item) => {

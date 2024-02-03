@@ -31,15 +31,15 @@ export class CustomerRepository implements iCustomerRepository {
         },
       },
       orderBy: {
-        name: 'asc',
+        createdAt: 'desc',
       },
     });
-    const result = {
+    const data = {
       paginas: quantityOfPages,
       quantityRecords,
       customers,
     };
-    return result;
+    return data;
   }
 
   async findOne(customerId: string) {

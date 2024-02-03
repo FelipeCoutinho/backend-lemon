@@ -1,5 +1,6 @@
 import { CreateCustomerDto } from 'src/customer/dto/create-customer.dto';
 import { iCustomerRepository } from '../../src/customer/repository/prisma.customer.repository';
+import { CONSUMPTIONCLASSES } from '../../src/customer/dto/ConsumptionClasses.enum';
 export class customerRepositoryMock implements iCustomerRepository {
   getCustomerMock() {
     const customerMock: CreateCustomerDto = {
@@ -18,13 +19,13 @@ export class customerRepositoryMock implements iCustomerRepository {
   getNewCustomerMock() {
     const newCustomerMock: CreateCustomerDto = {
       name: 'compassoUol',
-      documentNumber: '35718965000107',
-      connectiontype: 'Monofasico',
-      consumptionclass: 'Residencial',
+      documentNumber: '07.835.395/0001-91',
+      connectiontype: 'MONOFASICO',
+      consumptionclass: CONSUMPTIONCLASSES.RESIDENCIAL,
       historyOfConsumption: [
         3878, 9760, 5976, 2797, 2481, 5731, 7538, 4392, 7859, 4160, 6941, 4597,
       ],
-      tariffModality: 'azul',
+      tariffModality: 'BRANCA',
     };
     return newCustomerMock;
   }
